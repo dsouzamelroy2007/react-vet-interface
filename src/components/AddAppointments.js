@@ -12,6 +12,7 @@ export function AddAppointments(props){
             aptDate : '',
             aptTime : '',
             aptNotes : ''
+       
         }
         );
   

@@ -11,7 +11,9 @@ class App extends Component {
     this.state = {
       petData : [],
       lastIndex : 0,
-      hideDisplay : true
+      hideDisplay : true,
+      orderBy : 'ownerName',
+      sort : 'asc'
     }
     this.addAppointment = this.addAppointment.bind(this);
 
@@ -64,6 +66,23 @@ class App extends Component {
   }
 
 render() {
+  let order;
+  let tempAppointments = this.state.petData;
+  if(this.state.sort == 'asc'){
+     order = 1;
+  }else{
+    order = -1;
+  }
+
+  tempAppointments.sort((a,b) => {
+    if(a[this.state.orderBy].toLowerCase() < b[this.state.orderBy].toLowerCase() ){
+      return -1 * order;
+    }else{
+      return 1 * order;
+    }
+  });
+
+
   return (
       <main className="page bg-white" id="petratings">
         <div className="container">
@@ -76,9 +95,12 @@ render() {
                    toggleAddAppointment = {this.toggleAddAppointment}
                    addAppointment = {this.addAppointment}
                 />
-                <SearchAppointments />
+                <SearchAppointments 
+                  orderBy = {this.state.orderBy}
+                  orderDir = {this.state.sort}
+                />
                 <ListAppointments 
-                   appointments = {this.state.petData}
+                   appointments = {tempAppointments}
                    deleteAppointment = {this.deleteAppointment}
                 />
               </div>
