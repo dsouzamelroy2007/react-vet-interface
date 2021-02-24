@@ -19,6 +19,8 @@ class App extends Component {
 
     this.deleteAppointment = this.deleteAppointment.bind(this);
     this.toggleAddAppointment = this.toggleAddAppointment.bind(this);
+    this.setOrderBy = this.setOrderBy.bind(this);
+
   }
 
   componentDidMount(){
@@ -65,10 +67,16 @@ class App extends Component {
     })
   }
 
+  setOrderBy(orderBy){
+     this.setState({
+      orderBy : orderBy
+     });
+  }
+
 render() {
   let order;
   let tempAppointments = this.state.petData;
-  if(this.state.sort == 'asc'){
+  if(this.state.sort === 'asc'){
      order = 1;
   }else{
     order = -1;
@@ -98,6 +106,7 @@ render() {
                 <SearchAppointments 
                   orderBy = {this.state.orderBy}
                   orderDir = {this.state.sort}
+                  setOrderBy = {this.setOrderBy}
                 />
                 <ListAppointments 
                    appointments = {tempAppointments}

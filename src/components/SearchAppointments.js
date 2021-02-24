@@ -1,4 +1,12 @@
+import { set } from "lodash";
+import {useState, useEffect} from "react";
+
 export function SearchAppointments(props){
+  const [orderBy, setOrderBy]   = useState(props.orderBy);
+  const [orderDir, setOrderDir] = useState(props.orderDir);
+
+  useEffect(() => props.setOrderBy(orderBy) , [orderBy]);
+
   return (
     <div className="search-appointments row justify-content-center my-4">
     <div className="col-md-6">
@@ -26,7 +34,10 @@ export function SearchAppointments(props){
                   'sort-by dropdown-item ' + 
                   (props.orderBy === 'petName' ? 'active' : '')
                }
-               href="#">
+               href="#"
+               name = "petName"
+               onClick = {() => setOrderBy("petName")}
+               >
               Pet Name
             </button>
             <button 
