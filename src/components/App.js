@@ -13,14 +13,16 @@ class App extends Component {
       lastIndex : 0,
       hideDisplay : true,
       orderBy : 'ownerName',
-      sort : 'asc'
+      sort : 'asc',
+      query : ''
     }
     this.addAppointment = this.addAppointment.bind(this);
 
     this.deleteAppointment = this.deleteAppointment.bind(this);
     this.toggleAddAppointment = this.toggleAddAppointment.bind(this);
     this.setOrderBy = this.setOrderBy.bind(this);
-
+    this.setOrderDir = this.setOrderDir.bind(this);
+    this.setSearchQuery = this.setSearchQuery.bind(this);
   }
 
   componentDidMount(){
@@ -73,6 +75,18 @@ class App extends Component {
      });
   }
 
+  setOrderDir(orderDir){
+    this.setState({
+      sort : orderDir
+    });
+  }
+
+  setSearchQuery(searchQuery){
+    this.setState({
+      query : searchQuery
+    });
+  }
+
 render() {
   let order;
   let tempAppointments = this.state.petData;
@@ -82,12 +96,21 @@ render() {
     order = -1;
   }
 
-  tempAppointments.sort((a,b) => {
+  tempAppointments = tempAppointments.sort((a,b) => {
     if(a[this.state.orderBy].toLowerCase() < b[this.state.orderBy].toLowerCase() ){
       return -1 * order;
     }else{
       return 1 * order;
     }
+  }).filter(eachItem => {
+    return eachItem['petName'].toLowerCase()
+    .includes(this.state.query.toLowerCase())
+    ||
+    eachItem['ownerName'].toLowerCase()
+    .includes(this.state.query.toLowerCase())
+    ||
+    eachItem['aptNotes'].toLowerCase()
+    .includes(this.state.query.toLowerCase())
   });
 
 
@@ -107,6 +130,8 @@ render() {
                   orderBy = {this.state.orderBy}
                   orderDir = {this.state.sort}
                   setOrderBy = {this.setOrderBy}
+                  setOrderDir = {this.setOrderDir}
+                  setQueryText = {this.setSearchQuery}
                 />
                 <ListAppointments 
                    appointments = {tempAppointments}
