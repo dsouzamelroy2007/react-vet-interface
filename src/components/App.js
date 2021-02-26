@@ -1,4 +1,4 @@
-import { bind, without } from 'lodash';
+import { bind, without, findIndex } from 'lodash';
 import { Component } from 'react';
 import '../css/App.css';
 import { AddAppointments } from "./AddAppointments";
@@ -23,6 +23,7 @@ class App extends Component {
     this.setOrderBy = this.setOrderBy.bind(this);
     this.setOrderDir = this.setOrderDir.bind(this);
     this.setSearchQuery = this.setSearchQuery.bind(this);
+    this.editPetData = this.editPetData.bind(this);
   }
 
   componentDidMount(){
@@ -87,6 +88,18 @@ class App extends Component {
     });
   }
 
+  editPetData(name, aptId, value){
+    console.log(name, aptId, value);
+    let tempAppointments =  this.state.petData;
+    let petIndex = findIndex(tempAppointments, {
+      appId : aptId
+    });
+    tempAppointments[aptId][name] = value;
+    this.setState({
+      petData : tempAppointments
+    });
+  }
+
 render() {
   let order;
   let tempAppointments = this.state.petData;
@@ -136,6 +149,7 @@ render() {
                 <ListAppointments 
                    appointments = {tempAppointments}
                    deleteAppointment = {this.deleteAppointment}
+                   editPetData = {this.editPetData}
                 />
               </div>
             </div>

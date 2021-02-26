@@ -3,6 +3,7 @@ import  Moment from "react-moment";
 
 export function ListAppointments(props){
 
+
   return (
     <div className="appointment-list item-list mb-3">
     {props.appointments.map((item) => (
@@ -16,21 +17,51 @@ export function ListAppointments(props){
 
         <div className="pet-info media-body">
           <div className="pet-head d-flex">
-            <span className="pet-name">{item.petName}</span>
-            <span className="apt-date ml-auto">
+            <span className="pet-name"
+                  contentEditable 
+                  suppressContentEditableWarning
+                  onBlur = {e => props.editPetData(
+                    'petName',
+                    item.appId,
+                    e.target.innerText
+                  )}>
+              {item.petName}
+            </span>
+            <span className="apt-date ml-auto" 
+                contentEditable 
+                suppressContentEditableWarning
+                >
+              
               <Moment
                 date = {item.aptDate}
                 parse = "YYY-MM-dd hh:mm"
                 format = "MMM-D h:mma"
               />
+              
             </span>
           </div>
 
-          <div className="owner-name">
+          <div className="owner-name"
+                          contentEditable 
+                          suppressContentEditableWarning
+                          onBlur = {e => props.editPetData(
+                            'ownerName',
+                            item.appId,
+                            e.target.innerText
+                          )}>
             <span className="label-item">Owner: </span>
             <span>{item.ownerName}</span>
           </div>
-          <div className="apt-notes">{item.aptNotes}</div>
+          <div className="apt-notes"
+                      contentEditable 
+                      suppressContentEditableWarning
+                      onBlur = {e => props.editPetData(
+                                      'aptNotes',
+                                      item.appId,
+                                      e.target.innerText
+                                )}>
+            {item.aptNotes}
+          </div>
         </div>
       </div>
     ))}
